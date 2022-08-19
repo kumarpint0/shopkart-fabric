@@ -1,0 +1,9 @@
+export ORDERER_CA=${PWD}/crypto-config/ordererOrganizations/orderer.shopkart.com/msp/tlscacerts/tlsca.orderer.shopkart.com-cert.pem
+
+export PEER0_AMAZON_CA=${PWD}/crypto-config/peerOrganizations/amazon.shopkart.com/peers/peer0.amazon.shopkart.com/tls/ca.crt
+
+export PEER0_FLIPKART_CA=${PWD}/crypto-config/peerOrganizations/flipkart.shopkart.com/peers/peer0.flipkart.example.com/tls/ca.crt
+
+export FABRIC_CFG_PATH=${PWD}/config/
+
+export PRIVATE_DATA_CONFIG=${PWD}/private-data/shopkart_config.json

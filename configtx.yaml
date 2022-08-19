@@ -1,0 +1,183 @@
+---
+Organizations:
+    - &orderer
+        Name: orderer
+        ID: ordererMSP
+        MSPDir: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('ordererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('ordererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('ordererMSP.admin')"
+    - &amazon
+        Name: amazonMSP
+        ID: amazonMSP
+        MSPDir: /home/ravi/shopkart/network/crypto-config/peerOrganizations/amazon.shopkart.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('amazonMSP.admin', 'amazonMSP.peer', 'amazonMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('amazonMSP.admin', 'amazonMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('amazonMSP.admin')"      
+            Endorsement:
+                Type: Signature
+                Rule: "OR('amazonMSP.peer')"        
+        AnchorPeers: 
+            - Host: peer0.amazon.shopkart.com
+              Port: 7051 
+    - &flipkart
+        Name: flipkartMSP
+        ID: flipkartMSP
+        MSPDir: /home/ravi/shopkart/network/crypto-config/peerOrganizations/flipkart.shopkart.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('flipkartMSP.admin', 'flipkartMSP.peer', 'flipkartMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('flipkartMSP.admin', 'flipkartMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('flipkartMSP.admin')"      
+            Endorsement:
+                Type: Signature
+                Rule: "OR('flipkartMSP.peer')"        
+        AnchorPeers: 
+            - Host: peer0.flipkart.shopkart.com
+              Port: 9051 
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: etcdraft
+    Addresses:
+        - orderer1.orderer.shopkart.com:7050
+        - orderer2.orderer.shopkart.com:7050
+        - orderer3.orderer.shopkart.com:7050
+        - orderer4.orderer.shopkart.com:7050
+        - orderer5.orderer.shopkart.com:7050
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 98 MB
+        PreferredMaxBytes: 512 KB
+    EtcdRaft:
+        Consenters:
+            - Host: orderer1.orderer.shopkart.com
+              Port: 7050
+              ClientTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer1.orderer.shopkart.com/tls/server.crt
+              ServerTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer1.orderer.shopkart.com/tls/server.crt 
+            - Host: orderer2.orderer.shopkart.com
+              Port: 7050
+              ClientTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer2.orderer.shopkart.com/tls/server.crt
+              ServerTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer2.orderer.shopkart.com/tls/server.crt 
+            - Host: orderer3.orderer.shopkart.com
+              Port: 7050
+              ClientTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer3.orderer.shopkart.com/tls/server.crt
+              ServerTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer3.orderer.shopkart.com/tls/server.crt 
+            - Host: orderer4.orderer.shopkart.com
+              Port: 7050
+              ClientTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer4.orderer.shopkart.com/tls/server.crt
+              ServerTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer4.orderer.shopkart.com/tls/server.crt 
+            - Host: orderer5.orderer.shopkart.com
+              Port: 7050
+              ClientTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer5.orderer.shopkart.com/tls/server.crt
+              ServerTLSCert: /home/ravi/shopkart/network/crypto-config/ordererOrganizations/orderer.shopkart.com/orderers/orderer5.orderer.shopkart.com/tls/server.crt 
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    RaftOrderer:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+            - *orderer
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *orderer
+        Consortiums:
+            Consortiumshopkartchannel:
+                Organizations:
+                   - *amazon
+                   - *flipkart
+                  
+    shopkartchannel:
+        Consortium: Consortiumshopkartchannel
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *amazon
+                - *flipkart
+                
+            Capabilities:
+                <<: *ApplicationCapabilities

@@ -1,0 +1,49 @@
+    
+OrdererOrgs:
+  - Name: orderer
+    Domain: orderer.shopkart.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname : orderer1
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+    
+      - Hostname : orderer2
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+    
+      - Hostname : orderer3
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+    
+      - Hostname : orderer4
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+    
+      - Hostname : orderer5
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+    
+PeerOrgs:
+  - Name: amazon 
+    Domain: amazon.shopkart.com
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1 
+      
+  - Name: flipkart 
+    Domain: flipkart.shopkart.com
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1 
+      
+
